@@ -4,7 +4,7 @@ import pandas as pd
 
 
 class Data():
-    def __init__(self, path):
+    def __init__(self, path, ):
         self.path = path
         df = pd.read_csv(path)
         self.df = df
@@ -23,17 +23,24 @@ class Data():
         return(list_of_districts)
 
     def set_districts_data(self, districts):
+        rows = districts
+        right_districts = pd.DataFrame(self.df, index=rows)
+        file = open("data.py", "w")
+        file.write(str(right_districts))
+        file.close()
+
 
 
 
 
 def main(argv):
 #    path = sys.argv[1]
-    districts = ['Calabria', 'Umbria']
+    districts = ['Calabria', 'Umbria', 'Veneto']
     path = 'C:\\Users\Yael\Documents\intro_to_DS\hw2\dpc-covid19-ita-regioni.csv'
     data1 = Data(path)
     data1.load_data()
     data1.get_all_districts()
+    data1.set_districts_data(districts)
 
 
 
