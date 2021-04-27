@@ -4,7 +4,7 @@ import pandas as pd
 
 
 class Data():
-    def __init__(self, path, ):
+    def __init__(self, path):
         self.path = path
         df = pd.read_csv(path)
         self.df = df
@@ -20,7 +20,11 @@ class Data():
         columns = ['denominazione_region']
         list_of_districts = pd.DataFrame(self.df, columns=columns)
         list_of_districts = list_of_districts.values
-        return(list_of_districts)
+        flat_list = []
+        for sublist in list_of_districts:
+            for item in sublist:
+                flat_list.append(item)
+        return(flat_list)
 
     def set_districts_data(self, districts):
         rows = districts
@@ -30,18 +34,42 @@ class Data():
         file.write(str(right_districts))
         file.close()
 
+class districts(Data):
+    def __init__(self, path):
+        self.dataset = Data(path)
+
+    def filter_districts(self, letters):
+        all_dist = self.dataset.get_all_districts()
+        sorted_dist = sorted(all_dist)
+        for i in sorted_dist:
+            indi = 0
+            for j in letters:
+                if i[0] == j:
+                    indi = 1
+                else:
+                    continue
+            if indi == 1:
+                continue
+            else:
+                i = 0
+        print(sorted_dist)
+        filtered = self.dataset.set_districts_data(sorted_dist)
+
 
 
 
 
 def main(argv):
 #    path = sys.argv[1]
-    districts = ['Calabria','Lombardia', 'Umbria', 'Veneto']
+    our_districts = ['Calabria','Lombardia', 'Umbria', 'Veneto']
+    letters = {'A', 'L', 'U'}
     path = 'C:\\Users\Yael\Documents\intro_to_DS\hw2\dpc-covid19-ita-regioni.csv'
     data1 = Data(path)
     data1.load_data()
     data1.get_all_districts()
-    data1.set_districts_data(districts)
+    data1.set_districts_data(our_districts)
+    dist1 = districts(path)
+    dist1.filter_districts(letters)
 
 
 
