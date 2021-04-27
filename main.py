@@ -24,7 +24,8 @@ class Data():
 
     def set_districts_data(self, districts):
         rows = districts
-        right_districts = pd.DataFrame(self.df, index=rows)
+        right_districts = self.df.loc[self.df['denominazione_region'].isin(rows)]
+        right_districts = right_districts.values
         file = open("data.py", "w")
         file.write(str(right_districts))
         file.close()
@@ -35,7 +36,7 @@ class Data():
 
 def main(argv):
 #    path = sys.argv[1]
-    districts = ['Calabria', 'Umbria', 'Veneto']
+    districts = ['Calabria','Lombardia', 'Umbria', 'Veneto']
     path = 'C:\\Users\Yael\Documents\intro_to_DS\hw2\dpc-covid19-ita-regioni.csv'
     data1 = Data(path)
     data1.load_data()
