@@ -41,6 +41,8 @@ class districts(Data):
     def filter_districts(self, letters):
         all_dist = self.dataset.get_all_districts()
         sorted_dist = sorted(all_dist)
+        sorted_dist = list(dict.fromkeys(sorted_dist))
+        list_to_use = []
         for i in sorted_dist:
             indi = 0
             for j in letters:
@@ -49,11 +51,11 @@ class districts(Data):
                 else:
                     continue
             if indi == 1:
+                list_to_use.append(i)
                 continue
             else:
-                i = 0
-        print(sorted_dist)
-        filtered = self.dataset.set_districts_data(sorted_dist)
+                continue
+        self.dataset.set_districts_data(list_to_use)
 
 
 
@@ -62,7 +64,7 @@ class districts(Data):
 def main(argv):
 #    path = sys.argv[1]
     our_districts = ['Calabria','Lombardia', 'Umbria', 'Veneto']
-    letters = {'A', 'L', 'U'}
+    letters = {'T', 'C', 'L', 'U'}
     path = 'C:\\Users\Yael\Documents\intro_to_DS\hw2\dpc-covid19-ita-regioni.csv'
     data1 = Data(path)
     data1.load_data()
